@@ -5,16 +5,19 @@ const mongoose = require('mongoose');
 const Fawn = require('fawn');
 const express = require('express');
 const router = express.Router();
+const log = require('../startup/logging');
 
 
 Fawn.init(mongoose);
 
 router.get('/', async (req, res) => {
+  log.info(`Return rentals...`);
   const rentals = await Rental.find().sort('-dateOut');
   res.send(rentals);
 });
 
 router.post('/', async (req, res) => {
+  log.info(`Create rental...`);
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -53,6 +56,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+  log.info(`Return given rental...`);
   const rental = await Rental.findById(mongoose.Types.ObjectId(req.params.id));
 
   if (!rental) return res.status(404).send('The rental with the given ID was not found.');
