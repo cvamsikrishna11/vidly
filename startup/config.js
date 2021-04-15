@@ -5,7 +5,7 @@ module.exports = function () {
         throw new Error('FATAL ERROR: jwtPrivateKey is not defined!');
 
     }
-    if (!config.get('env')) {
+    if (!process.env.NODE_ENV) {
         console.log('FATAL ERROR: env is not defined!');
         throw new Error('FATAL ERROR: env is not defined!');
 

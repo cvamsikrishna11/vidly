@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const { Customer, validate } = require('../models/customers');
+const validateObjectId = require('../middleware/validateObjectId');
 
 
 router.get('/', async (req, res) => {
@@ -39,14 +40,14 @@ router.put('/:id', async (req, res) => {
     res.send(customer);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateObjectId, async (req, res) => {
     var ObjectId = mongoose.Types.ObjectId;
     const customer = await Customer.findByIdAndRemove(new ObjectId(req.params.id));
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
     res.send(customer);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
     var ObjectId = mongoose.Types.ObjectId;
     const customer = await Customer.findById(new ObjectId(req.params.id));
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');

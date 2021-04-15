@@ -6,6 +6,7 @@ const Fawn = require('fawn');
 const express = require('express');
 const router = express.Router();
 const log = require('../startup/logging');
+const validateObjectId = require('../middleware/validateObjectId');
 
 
 Fawn.init(mongoose);
@@ -55,7 +56,7 @@ router.post('/', async (req, res) => {
   res.send(rental);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
   log.info(`Return given rental...`);
   const rental = await Rental.findById(mongoose.Types.ObjectId(req.params.id));
 

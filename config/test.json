@@ -1,4 +1,4 @@
 {
-    "jwtPrivateKey": "vamsi",
-    "env": "development"
+    "jwtPrivateKey": "vamsi",    
+    "db": "mongodb://localhost/vidly_tests"
 }

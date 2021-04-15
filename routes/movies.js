@@ -3,6 +3,7 @@ const { Genre } = require('../models/genres');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
+const validateObjectId = require('../middleware/validateObjectId');
 
 router.get('/', async (req, res) => {
   const movies = await Movie.find().sort('name');
@@ -53,7 +54,7 @@ router.put('/:id', async (req, res) => {
   res.send(movie);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateObjectId, async (req, res) => {
   const movie = await Movie.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id));
 
   if (!movie) return res.status(404).send('The movie with the given ID was not found.');
@@ -61,7 +62,7 @@ router.delete('/:id', async (req, res) => {
   res.send(movie);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectId, async (req, res) => {
   const movie = await Movie.findById(mongoose.Types.ObjectId(req.params.id));
 
   if (!movie) return res.status(404).send('The movie with the given ID was not found.');
